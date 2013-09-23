@@ -1,0 +1,55 @@
+<% content_for :page_title do %>
+  <%= join_title t(:page_title, "Web Conferences"), @context.name %>
+<% end %>
+
+<% js_bundle(:conferences)  %>
+<% jammit_css(:conferences) %>
+
+<% if can_do(WebConference.new(:context => @context), @current_user, :create) %>
+  <header class="row-fluid">
+    <div class="span3 offset9 align-right padding-r">
+      <button type="button" class="btn btn-primary new-conference-btn">
+        <%= t(:new_conference, 'New Conference') %>
+      </button>
+    </div>
+  </header>
+<% end %>
+
+<div class="conference-wrapper item-box">
+  <h2>
+    <a class="element_toggler"
+        href="#"
+        aria-controls="new-conference-list">
+      <i class="icon-arrow-down"></i>
+      <%= t(:new_conferences, 'New Conferences') %>
+    </a>
+  </h2>
+
+  <div class="table" id="new-conference-list" aria-expanded="true">
+    <div class="table-row no-new-conferences">
+      <div class="table-cell">
+        <%= t(:no_new_conferences, 'There are no new conferences') %>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="conference-wrapper item-box">
+  <h2>
+    <a class="element_toggler"
+       href="#"
+       aria-controls="concluded-conference-list">
+      <i class="icon-arrow-down"></i>
+      <%= t(:concluded_conferences, 'Concluded Conferences') %>
+    </a>
+  </h2>
+
+  <div class="table" id="concluded-conference-list" aria-expanded="true">
+    <div class="table-row no-concluded-conferences">
+      <div class="table-cell">
+        <%= t(:no_concluded_conferences, 'There are no concluded conferences') %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id='add_conference_form'></div>
