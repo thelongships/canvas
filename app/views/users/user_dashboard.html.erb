@@ -14,7 +14,6 @@
 <% content_for :leading_content do %>
   <h1 class='screenreader-only'> <%= t('user_dashboard', 'User Dashboard') %> </h1>
 <% end %>
-
 <div id="dashboard">
 <%= render :partial => 'shared/dashboard_invitation', :collection => @pending_invitations %>
 <%= render :partial => 'shared/dashboard_messages' %>

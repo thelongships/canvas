@@ -14,7 +14,10 @@
           :link_to_course => course_path(invitation.course_id, :invitation => invitation.uuid),
           :enrollment_type_with_indefinite_article => Enrollment.type_with_indefinite_article(invitation.type).downcase
         })
-        %></p>
+        %>
+        <!-- KTH change -->
+        <h2>Vinutha here again!! <%= invitation.inspect %></h2></p>
+        <!-- KTH change -->
     </div>
     <div class="buttons">
       <% form_tag course_enrollment_invitation_path(invitation.course_id) do %>

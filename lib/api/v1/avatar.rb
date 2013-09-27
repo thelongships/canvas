@@ -22,25 +22,37 @@ module Api::V1::Avatar
 
   def avatars_json_for_user(user, includes={})
     avatars = []
-    if feature_enabled?(:facebook) && facebook = user.facebook
+    
+    #KTH change : User should only be able to pick avatars(which others have not picked ) from our options. 
+    
+    #if feature_enabled?(:facebook) && facebook = user.facebook
       # TODO: add facebook picture if enabled
-    end
-    avatars << avatar_json(user, user.gravatar_url(50, "/images/dotted_pic.png", request), {
-      :type => 'gravatar',
-      :alt => 'gravatar pic'
-    })
-    user.profile_pics_folder.active_file_attachments({:include => :thumbnail}).select{|a| a.content_type.match(/\Aimage\//) && a.thumbnail}.sort_by(&:id).reverse.each do |image|
-      avatars << avatar_json(user, image, {
-        :type => 'attachment',
-        :alt => image.display_name,
-        :pending => image.thumbnail.nil?
-      })
-    end
+    #end
+    #avatars << avatar_json(user, user.gravatar_url(50, "/images/dotted_pic.png", request), {
+    #  :type => 'gravatar',
+    #  :alt => 'gravatar pic'
+    #})
+    #user.profile_pics_folder.active_file_attachments({:include => :thumbnail}).select{|a| a.content_type.match(/\Aimage\//) && a.thumbnail}.sort_by(&:id).reverse.each do |image|
+    #  avatars << avatar_json(user, image, {
+    #    :type => 'attachment',
+     #   :alt => image.display_name,
+     #   :pending => image.thumbnail.nil?
+     # })
+   # end
     # send the dotted box as the last option
-    avatars << avatar_json(user, User.avatar_fallback_url('/images/dotted_pic.png', request), {
+    #avatars << avatar_json(user, User.avatar_fallback_url('/images/dotted_pic.png', request), {
+    #  :type => 'no_pic',
+     # :alt => 'no pic'
+    #})
+    
+   # count = Dir.entries('/images/studentimages')
+    #puts '******************************************'
+    #puts count
+    avatars << avatar_json(user, User.avatar_fallback_url('/images/studentimages/av10.png', request), {
       :type => 'no_pic',
-      :alt => 'no pic'
+      :alt => 'our pic'
     })
+    # KTH change
     avatars
   end
 
