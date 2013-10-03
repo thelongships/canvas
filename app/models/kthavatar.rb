@@ -12,14 +12,13 @@ class Kthavatar < ActiveRecord::Base
   attr_accessible :id, :name, :path, :taken
   
   def self.get_available_avatars()
-    #kthavatars = Kthavatar.where(taken: 'f')
-    #kthavatars = Kthavatar.find_by_sql(["SELECT name, type, path FROM kthavatars WHERE taken = 'f'"])
-    #kthavatars = Kthavatar.all
     kthavatars = Kthavatar.where(taken: 'f').pluck(:path)
   end
   
-  def self.update_avatars_taken()
-    
+  def self.update_avatars_taken(nameOfAvatar)
+    avatar_id = Kthavatar.where("name = '#{nameOfAvatar}' ")
+    row = Kthavatar.find(avatar_id)
+    row.update_all(:taken => 't')
   end
   
 end

@@ -23,42 +23,16 @@ module Api::V1::Avatar
 
   def avatars_json_for_user(user, includes={})
     avatars = []
-    if feature_enabled?(:facebook) && facebook = user.facebook
-      # TODO: add facebook picture if enabled
-    end
-    avatars << avatar_json(user, user.gravatar_url(50, "/images/dotted_pic.png", request), {
-      :type => 'gravatar',
-      :alt => 'gravatar pic'
-    })
-    user.profile_pics_folder.active_file_attachments({:include => :thumbnail}).select{|a| a.content_type.match(/\Aimage\//) && a.thumbnail}.sort_by(&:id).reverse.each do |image|
-      avatars << avatar_json(user, image, {
-        :type => 'attachment',
-        :alt => image.display_name,
-        :pending => image.thumbnail.nil?
-      })
-      puts "&&&&&&&&&&&&&&&&&&&&&&&&&&"
-      puts image.inspect
-      puts "this is the user id"
-      puts user.id
-    end
-    # send the dotted box as the last option
-    avatars << avatar_json(user, User.avatar_fallback_url('/images/dotted_pic.png', request), {
-      :type => 'no_pic',
-      :alt => 'no pic'
-    })
-    
-    
+   
     # getting images from server and showing it
     list_of_cartoons = Kthavatar.get_available_avatars()
     list_of_cartoons.each do |cartoon|
-      avatars << avatar_json_no_token(user, User.avatar_fallback_url(cartoon, request), {
-        :type => 'gravatar',
+      avatars << avatar_json_no_change(user, User.avatar_fallback_url(cartoon, request), {
+        :type => 'attachment',
         :alt => 'is this the one?',
         :name => user.name
       })
      end
-    puts "_____________________________________"
-    puts avatars.inspect
     avatars
   end
 
@@ -76,9 +50,9 @@ module Api::V1::Avatar
     json
   end
 
-  def avatar_json_no_token(user, attachment_or_url, options = {})
+  def avatar_json_no_change(user, attachment_or_url, options = {})
     json = if options[:type] == 'attachment'
-      attachment_json(attachment_or_url, user, {}, { :thumbnail_url => true })
+      {'url' => attachment_or_url }
     else
       { 'url' => attachment_or_url }
     end
@@ -86,6 +60,7 @@ module Api::V1::Avatar
     json['type'] = options[:type]
     json['display_name'] ||= options[:name]
     json['pending'] = options[:pending] unless api_request?
+    json['token'] = construct_token(user, json['type'], json['url'])
     json
   end
   
@@ -97,8 +72,10 @@ module Api::V1::Avatar
   end
 
   def avatar_for_token(user, token)
-    puts "*************************"
-    puts token
+    puts "88888888888888888888888"
+    chosenAvatar = avatars_json_for_user(user).select{ |j| j['token'] == token }.first
+    nameOfAvatar = chosenAvatar['url'].split('/').last.split('.').first 
+    Kthavatar.update_avatars_taken(nameOfAvatar)
     avatars_json_for_user(user).select{ |j| j['token'] == token }.first
     
   end

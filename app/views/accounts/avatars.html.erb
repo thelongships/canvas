@@ -51,7 +51,7 @@
 <% @users.each do |user| %>
   <tr class="<%= user.avatar_state %>">
     <td style="width: 50px;">
-      <div class="avatar"><img src="<%= user.avatar_url(50, @domain_root_account.settings[:avatars]) %>" style="width: 50px; max-height: 75px;"/></div>
+      <div class="avatar"><img src="<%= user.avatar_image_url %>" style="width: 50px; max-height: 75px;"/></div>
     </td>
     <td class="avatar_state">
     </td>

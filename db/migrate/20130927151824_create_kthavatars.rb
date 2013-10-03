@@ -1,4 +1,4 @@
-x class CreateKthavatars < ActiveRecord::Migration
+class CreateKthavatars < ActiveRecord::Migration
 tag :predeploy
 
   def self.up
