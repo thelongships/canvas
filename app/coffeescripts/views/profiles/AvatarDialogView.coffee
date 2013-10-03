@@ -105,10 +105,13 @@ define [
       return 'continue'
 
     onAvatarLoad: (avatars) =>
+      console.log avatars.length
+      alert(avatars.length)
       return unless avatars?.length
       @$el.addClass('loaded').find('h3').remove()
       @drawAvatar(avatar) for avatar in avatars
       @thumbnailPoller.start() if @pollThumbnails
+      console.log avatars.length
 
     drawAvatar: (avatar) ->
       binding = _.extend({classNames: ''}, avatar)
@@ -127,6 +130,9 @@ define [
       @selectButton().prop('disabled', false)
 
     updateAvatar: (e) =>
+      console.log "update avatar"
+      alert("update avatar")
+      console.log $image.data('display_name')
       url    = '/api/v1/users/self'
       $image = @$el.find('.selected img')
       data   = { 'user[avatar][token]': $image.data('token') }

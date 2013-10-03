@@ -1229,7 +1229,9 @@ class User < ActiveRecord::Base
         uri.host = HostUrl.cdn_host
       elsif request && !uri.host
         uri.host = request.host
+        #KTH change
         uri.port = request.port if ![80, 443].include?(request.port)
+        #KTH change
       elsif !uri.host
         uri.host, uri.port = HostUrl.default_host.split(/:/)
       end

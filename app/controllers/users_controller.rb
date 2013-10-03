@@ -999,7 +999,11 @@ class UsersController < ApplicationController
           params[:user][:avatar_image] = { :type => av_json['type'],
             :url => av_json['url'] }
         end
+        puts "88888888888888888888888888888888888888888888888888888"
+        puts :token.inspect
       elsif url = avatar.try(:[], :url)
+        puts "^^^^^"
+        puts "no token, should get updated"
         params[:user][:avatar_image] = { :type => 'external', :url => url }
       end
     end
