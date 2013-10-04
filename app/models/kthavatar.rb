@@ -16,9 +16,8 @@ class Kthavatar < ActiveRecord::Base
   end
   
   def self.update_avatars_taken(nameOfAvatar)
-    avatar_id = Kthavatar.where("name = '#{nameOfAvatar}' ")
-    row = Kthavatar.find(avatar_id)
-    row.update_all(:taken => 't')
+    avatar_id = Kthavatar.where("name = '#{nameOfAvatar}' ").pluck(:id)
+    result = Kthavatar.where("id = '#{avatar_id.first}' ").update_all(:taken => 't')
   end
   
 end

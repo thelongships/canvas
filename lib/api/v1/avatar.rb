@@ -72,11 +72,10 @@ module Api::V1::Avatar
   end
 
   def avatar_for_token(user, token)
-    puts "88888888888888888888888"
     chosenAvatar = avatars_json_for_user(user).select{ |j| j['token'] == token }.first
     nameOfAvatar = chosenAvatar['url'].split('/').last.split('.').first 
-    Kthavatar.update_avatars_taken(nameOfAvatar)
+    result = Kthavatar.update_avatars_taken(nameOfAvatar)
     avatars_json_for_user(user).select{ |j| j['token'] == token }.first
-    
+    chosenAvatar
   end
 end
