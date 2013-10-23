@@ -7,15 +7,19 @@
   <% end %>
 <% end %>
 
+
 <% content_for :right_side do %>
   <div class="placeholder"></div>
 <% end %>
-
+<!-- KTH change -->
+<!-- <h2>after login!</h2> -->
+<!-- KTH change -->
 <% content_for :leading_content do %>
   <h1 class='screenreader-only'> <%= t('user_dashboard', 'User Dashboard') %> </h1>
 <% end %>
 <div id="dashboard">
-<%= render :partial => 'shared/dashboard_invitation', :collection => @pending_invitations %>
+<%= render :partial => 'kth/users/home_page' %>
+<!-- <%= render :partial => 'shared/dashboard_invitation', :collection => @pending_invitations %>
 <%= render :partial => 'shared/dashboard_messages' %>
-<%= render :partial => 'shared/recent_activity' %>
+<%= render :partial => 'shared/recent_activity' %> -->
 </div>

@@ -6,6 +6,9 @@
   right_side = yield :right_side
   wizard = yield :wizard_box
   top_nav = yield :top_nav
+  # KTH change
+  current_role = nil
+  # KTH change
 
   content_for :pre_html do
     @body_class_no_headers = @headers == false
@@ -16,6 +19,11 @@
       left_side_custom = yield :left_side_custom
       @show_left_side ||= (section_tabs.length > 0 || left_side_custom.try(:length))
     end
+    # KTH change
+    if @current_user
+    	current_role = @current_user.initial_enrollment_type
+    end
+    # KTH change
     @body_classes << "with-left-side" if @show_left_side
     #we dont want to render a right side unless there is actually content in it.
     @body_classes << "with-right-side" if right_side and not right_side.strip.empty?
@@ -50,9 +58,15 @@
       <% end %>
     </div>
     <%= render(:partial => "shared/keyboard_navigation_hint") if keyboard_navigation %>
+
     <% if @current_user %>
+    
+    <!-- KTH change-->
+    <%  if current_role == "student" %>
+    <ul role="navigation" id="menu" aria-label="<%= t('navigation.main', 'Main Navigation') %>" style="height:45px;">
+    <% else %>	
     <ul role="navigation" id="menu" aria-label="<%= t('navigation.main', 'Main Navigation') %>">
-      <%- cache([@current_user, 'home-menu-15m'], :expires_in => 15.minutes) do -%>
+      <!-- <%- cache([@current_user, 'home-menu-15m'], :expires_in => 15.minutes) do -%> -->
       <li id="courses_menu_item" class="menu-item">
         <%- if show_home_menu? -%>
           <%= render(:partial => 'shared/home_menu') %>
@@ -61,6 +75,11 @@
         <%- end -%>
       </li>
       <%- end -%>
+      <% end %>
+      <!-- KTH change-->
+      
+      <!-- KTH change : no aasignments, grades and calendar-->
+      <!-- 
       <li id="assignments_menu_item" class="menu-item">
       <%
       # this will cache the assignments menu for 3 minutes.  the way it is right now it does 3 really expensive queries every page load.
@@ -113,6 +132,8 @@
       <li id="calendar_menu_item" class="menu-item">
         <a href="<%= calendar_path %>" class="menu-item-no-drop"><%= t('menu.calendar', 'Calendar') %></a>
       </li>
+      -->
+      <!-- KTH change, no assignments, grades or calendar-->
     </ul>
     <% end %>
   </div>
@@ -127,8 +148,15 @@
 <div id="wrapper-container">
   <div id="wrapper">
     <% if @show_left_side %>
-      <%# @left_side_list_view is temporary until we redo eportfolios %>
-      <div id="left-side" class="<% if !@no_left_side_list_view %>list-view<% end %>">
+      <%# @left_side_list_view is temporary until we redo eportfolios 
+      %>
+      <!-- KTH change, hidden content -->
+      <%  if current_role == "student" %>
+      		<div id="left-side" class="<% if !@no_left_side_list_view %>list-view<% end %>" style="display:none;">
+      <%  else %>
+     		 <div id="left-side" class="<% if !@no_left_side_list_view %>list-view<% end %>">
+     <% end %>
+     <!-- KTH change, hidden content -->
       <% if left_side %>
         <%= left_side %>
       <% else %>
@@ -149,14 +177,21 @@
       <% end %>
     </div>
     <% end %>
+
     <div id="main">
-      <div id="right-side-wrapper">
+    <!-- KTH change  , hidden content-->
+    <%  if current_role == "student" %>
+     <div id="right-side-wrapper" style="display:none;">
+    <%  else %>
+     <div id="right-side-wrapper">
+    <% end %>
+    <!-- KTH change  , hidden content-->
         <aside id="right-side" role="complementary">
           <%= right_side %>
         </aside>
-      </div>
+     </div>
       <div id="not_right_side">
-        <div id="content-wrapper">
+        <div id="content-wrapper" >
           <%= render_crumbs %>
           <div id="content" role="main" class="container-fluid">
             <%= yield %>
