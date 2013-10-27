@@ -8,6 +8,7 @@
   top_nav = yield :top_nav
   # KTH change
   current_role = nil
+  image_present = nil
   # KTH change
 
   content_for :pre_html do
@@ -22,6 +23,10 @@
     # KTH change
     if @current_user
     	current_role = @current_user.initial_enrollment_type
+    	image_present = @current_user.avatar_image_url
+    	puts image_present
+    	puts current_role
+    	puts "!!!!!!!"
     end
     # KTH change
     @body_classes << "with-left-side" if @show_left_side
@@ -76,6 +81,8 @@
       </li>
       <%- end -%>
       <% end %>
+      <!-- KTH change, see if avatar is selected-->
+    <div id='kthavatar' style="display:none;"><%= image_present %></div>
       <!-- KTH change-->
       
       <!-- KTH change : no aasignments, grades and calendar-->

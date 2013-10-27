@@ -26,15 +26,16 @@
 <% js_bundle :profile %>
 <% jammit_css :profile_edit %>
 
-<% if service_enabled?(:avatars) %>
+<!-- KTH change, if avatar already selected, don't allow edit, you can only pick an avatar once-->
+<% if service_enabled?(:avatars) && @current_user.avatar_image_url == nil%>
   <a href="#" class="profile_pic_link <%= @user.avatar_state %>" title="<%= t('titles.click_to_change_profile_pic', "Click to change profile pic") %>" style="float: left; margin-right: 5px; min-width: 50px; min-height: 50px; display: inline-block;">
     <%= avatar_image(@user) %>
-
     <i class="icon-edit"></i>
   </a>
 <% end %>
-<!-- KTH change -->
-<!--  <%= @user.inspect%> --> 
+  <% if service_enabled?(:avatars) && @current_user.avatar_image_url != nil  %>
+		<%= avatar_image(@user) %>
+<% end %>
 <!-- KTH change-->
 <h2 style="padding-top: 0.3em;"><%= t('headers.users_profile', "%{user}'s Settings", :user => @user.short_name) %></h2>
 <div class="clear"></div>
