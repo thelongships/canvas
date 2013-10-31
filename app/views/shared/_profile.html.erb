@@ -9,10 +9,12 @@
   <div class="image-block">
     <div class="image-block-image profile-avatar-wrapper">
       <% if @user_data[:can_edit] %>
-        <a href="#" class="profile-link">
+      <!-- KTH change -->
+       <!--  <a href="#" class="profile-link"> -->
           <%= avatar_image @user_data[:id], 128 %>
-          <i class="icon-edit"></i>
-        </a>
+          <!-- <i class="icon-edit"></i> -->
+       <!--  </a>  -->
+       <!-- KTH change  -->
       <% else %>
         <%= avatar_image @user_data[:id], 128 %>
       <% end %>

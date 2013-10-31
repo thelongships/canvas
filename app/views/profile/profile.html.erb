@@ -552,7 +552,7 @@ TEXT
     <h3 style="padding-left: 10px; padding-top: 10px;"><%= t('headers.loading_images', "Loading Images...") %></h3>
     <div class="clear"></div>
   </div>
-  <a href="#" class="add_pic_link add"><%= t('links.upload_new_image', "Upload a new Image") %></a>
+  <!-- <a href="#" class="add_pic_link add"><%= t('links.upload_new_image', "Upload a new Image") %></a> -->
   <% form_for :attachment, :url => context_url(@user, :context_files_url, :format => 'json'), :html => {:id => "add_pic_form", :style => "display: none;"} do |f| %>
     <input type="hidden" name="format" value="text" />
     <%= f.file_field :uploaded_data %>

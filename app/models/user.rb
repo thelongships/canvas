@@ -1099,8 +1099,12 @@ class User < ActiveRecord::Base
   end
 
   def gravatar_url(size=50, fallback=nil, request=nil)
-    fallback = self.class.avatar_fallback_url(fallback, request)
+        #kth change - development only
+
+    #fallback = self.class.avatar_fallback_url(fallback, request)
     "https://secure.gravatar.com/avatar/#{Digest::MD5.hexdigest(self.email) rescue '000'}?s=#{size}&d=#{CGI::escape(fallback)}"
+    fallback = "https://secure.gravatar.com/avatar/#{Digest::MD5.hexdigest(self.email) rescue '000'}?s=#{size}&d=#{CGI::escape(fallback)}"
+    #kth change - development only
   end
 
   # Public: Set a user's avatar image. This is a convenience method that sets
@@ -1204,7 +1208,9 @@ class User < ActiveRecord::Base
     return fallback if avatar_setting == 'disabled'
     size ||= 50
     avatar_setting ||= 'enabled'
-    fallback = self.class.avatar_fallback_url(fallback, request)
+    fallback = ""
+    # kth change , to stop localhost problem
+    #fallback = self.class.avatar_fallback_url(fallback, request)
     if avatar_setting == 'enabled' || (avatar_setting == 'enabled_pending' && avatar_approved?) || (avatar_setting == 'sis_only')
       @avatar_url ||= self.avatar_image_url
     end
