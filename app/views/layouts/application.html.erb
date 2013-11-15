@@ -208,20 +208,7 @@
       </div>
     </div>
     <footer role="contentinfo" id="footer">
-      <!-- <a href="http://www.instructure.com"><%= image_tag 'footer-logo.png', :alt => t('instructure_description', "Instructure, makers of the open source learning management system Canvas") %></a> -->
       <span id="footer-links">
-       <!--  <% if Setting.get_cached("show_opensource_linkback", "false") == "true" %>
-          <a href="http://instructure.com"><%= t('open_source_learning_management_system', 'Open Source LMS') %></a>
-        <% end %>
-        <%= help_link %> -->
-        <a href="/courses/1/discussion_topics">Message on the wall</a>
-        <a href="/courses/1/wiki/overview">Overview</a>
-        <a href="/courses/1/users">Virtual meet and greet</a>
-        <a href="/courses/1/wiki/classroom">Classroom</a>
-        <a href="/groups">Creative learning corner</a>
-        <a href="/courses/1/wiki/library">C-Library</a>
-        <a href="/courses/1/assignments">Peer-review</a>
-        <a href="/courses/1/external_tools/4">C-Lounge</a>
         <%= render :partial => 'shared/footer_links' %>
       </span>
     </footer>
